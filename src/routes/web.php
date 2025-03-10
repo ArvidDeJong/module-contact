@@ -15,15 +15,15 @@ use Darvis\ModuleContact\Livewire\ContactSettings;
 
 Route::group(['prefix' => 'cms', 'middleware' => ['auth:staff', 'web']], function () {
 
-    // $modules = collect(cms_config('manta')['modules']);
+    $modules = collect(cms_config('manta')['modules']);
 
-    // $agendaModule = $modules->firstWhere("name", 'contact');
-    // if ($agendaModule && $agendaModule['active']) {
-    Route::get("/contact", ContactList::class)->name('contact.list');
-    Route::get("/contact/toevoegen", ContactCreate::class)->name('contact.create');
-    Route::get("/contact/aanpassen/{contact}", ContactUpdate::class)->name('contact.update');
-    Route::get("/contact/lezen/{contact}", ContactRead::class)->name('contact.read');
-    Route::get("/contact/bestanden/{contact}", ContactUpload::class)->name('contact.upload');
-    Route::get("/contact/instellingen", ContactSettings::class)->name('contact.settings');
-    // }
+    $agendaModule = $modules->firstWhere("name", 'contact');
+    $name = isset($agendaModule['routename']) ? $agendaModule['routename'] : 'contact';
+
+    Route::get("/{$name}", ContactList::class)->name('contact.list');
+    Route::get("/{$name}/toevoegen", ContactCreate::class)->name('contact.create');
+    Route::get("/{$name}/aanpassen/{contact}", ContactUpdate::class)->name('contact.update');
+    Route::get("/{$name}/lezen/{contact}", ContactRead::class)->name('contact.read');
+    Route::get("/{$name}/bestanden/{contact}", ContactUpload::class)->name('contact.upload');
+    Route::get("/{$name}/instellingen", ContactSettings::class)->name('contact.settings');
 });
